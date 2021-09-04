@@ -1,4 +1,6 @@
-from helperFiles import helper
+import helper
+from time import sleep
+
 bot = helper.bot
 
 
@@ -21,12 +23,11 @@ async def bonk(context):
         return
 
     voice_channel = context.author.voice.channel
-    channel = voice_channel.name
     vc = await voice_channel.connect()
     vc.play(helper.bonk_file())
     # Sleep while audio is playing.
     while vc.is_playing():
-        helper.sleep(.1)
+        sleep(.1)
     await vc.disconnect()
     # Delete command after the audio is done playing.
     await context.message.delete()
@@ -46,14 +47,13 @@ async def perseguidos(context):
         return
 
     voice_channel = context.author.voice.channel
-    channel = voice_channel.name
     vc = await voice_channel.connect()
     vc.play(helper.chasing())
     # Sleep while audio is playing.
     while vc.is_playing():
-        helper.sleep(.1)
+        sleep(.1)
     await vc.disconnect()
-    # Delete command after the audio is done playing.
+    # Delete command after the audls io is done playing.
     await context.message.delete()
 
 bot.run(helper.token)
