@@ -2,5 +2,4 @@ bot-env
 .gitignore
 .env
 .idea
-ffmpeg/
 */__pycache__/helper.cpython-38.pyc
