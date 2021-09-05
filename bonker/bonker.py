@@ -1,4 +1,4 @@
-import helper
+from data import helper
 from time import sleep
 
 bot = helper.bot
