@@ -48,6 +48,12 @@ async def perseguidos(context):
     await play_file(context, file)
 
 
+@bot.command(brief="Alguien anda de ruidoso?")
+async def callate(context):
+    file = helper.shutup()
+    await play_file(context, file)
+
+
 @bot.command(brief="Etiqueta a tus amigos para jugar")
 async def metase(ctx, *, member: helper.discord.Member):
     await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)

@@ -1,13 +1,14 @@
-import logging
 import os
 from pathlib import Path
 
 import discord
 from discord.ext import commands
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 bot = commands.Bot(command_prefix='$')
+logging.basicConfig(level=logging.INFO)
 
 
 def bonk_file():
@@ -17,5 +18,8 @@ def bonk_file():
 def chasing():
     return discord.FFmpegPCMAudio(source=Path('bonker/chasing.mp3'))
 
+
+def shutup():
+    return discord.FFmpegPCMAudio(source=Path('bonker/shutup.mp3'))
 
 token = os.getenv('TOKEN')
