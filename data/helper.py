@@ -22,4 +22,9 @@ def chasing():
 def shutup():
     return discord.FFmpegPCMAudio(source=Path('bonker/shutup.mp3'))
 
+
+def a():
+    return discord.FFmpegPCMAudio(source=Path('bonker/scream.mp3'))
+
+
 token = os.getenv('TOKEN')
