@@ -60,7 +60,7 @@ async def metase(ctx, *, member: helper.discord.Member):
 
 
 @bot.command(brief="AAAAAAAAA")
-async def a(context)
+async def a(context):
     file = helper.a()
     await play_file(context, file)
 
