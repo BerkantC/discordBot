@@ -60,15 +60,21 @@ async def siu(context):
     await play_file(context, file)
 
 
-@bot.command(brief="Etiqueta a tus amigos para jugar")
-async def metase(ctx, *, member: helper.discord.Member):
-    await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)
+@bot.command()
+async def bitconect(context):
+    file = helper.bitconect()
+    await play_file(context, file)
 
 
 @bot.command(brief="AAAAAAAAA")
 async def a(context):
     file = helper.a()
     await play_file(context, file)
+
+
+@bot.command(brief="Etiqueta a tus amigos para jugar")
+async def metase(ctx, *, member: helper.discord.Member):
+    await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)
 
 
 bot.run(helper.token)
