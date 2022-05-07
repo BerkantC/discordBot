@@ -27,4 +27,7 @@ def a():
     return discord.FFmpegPCMAudio(source=Path('bonker/scream.mp3'))
 
 
+def siu():
+    return discord.FFmpegPCMAudio(source=Path('bonker/siu.mp3'))
+
 token = os.getenv('TOKEN')

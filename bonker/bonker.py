@@ -54,6 +54,12 @@ async def callate(context):
     await play_file(context, file)
 
 
+@bot.command(brief="SIUUUUUUUUU")
+async def siu(context):
+    file = helper.siu()
+    await play_file(context, file)
+
+
 @bot.command(brief="Etiqueta a tus amigos para jugar")
 async def metase(ctx, *, member: helper.discord.Member):
     await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)
