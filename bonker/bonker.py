@@ -61,8 +61,8 @@ async def siu(context):
 
 
 @bot.command()
-async def bitconect(context):
-    file = helper.bitconect()
+async def bitconnect(context):
+    file = helper.bitconnect()
     await play_file(context, file)
 
 

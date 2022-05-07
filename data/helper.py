@@ -31,8 +31,8 @@ def siu():
     return discord.FFmpegPCMAudio(source=Path('bonker/siu.mp3'))
 
 
-def bitconect():
-    return discord.FFmpegPCMAudio(source=Path('bonker/bitconect.mp3'))
+def bitconnect():
+    return discord.FFmpegPCMAudio(source=Path('bonker/bitconnect.mp3'))
 
 
 token = os.getenv('TOKEN')
