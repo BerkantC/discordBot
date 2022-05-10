@@ -35,4 +35,8 @@ def bitconnect():
     return discord.FFmpegPCMAudio(source=Path('bonker/bitconnect.mp3'))
 
 
+def fanfare():
+    return discord.FFmpegPCMAudio(source=Path('bonker/win.mp3'))
+
+
 token = os.getenv('TOKEN')

@@ -72,6 +72,12 @@ async def a(context):
     await play_file(context, file)
 
 
+@bot.command()
+async def w(context):
+    file = helper.fanfare()
+    await play_file(context, file)
+
+
 @bot.command(brief="Etiqueta a tus amigos para jugar")
 async def metase(ctx, *, member: helper.discord.Member):
     await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)
