@@ -2,12 +2,21 @@ import os
 from pathlib import Path
 
 import discord
-from discord.ext import commands
+from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import logging
+from time import sleep
+
+import functools
+import typing
 
 load_dotenv()
-bot = commands.Bot(command_prefix='$')
+
+ISDEV = os.getenv('TOKENDEV') is not None
+if ISDEV:
+    bot = commands.Bot(command_prefix="!")
+else:
+    bot = commands.Bot(command_prefix='$')
 logging.basicConfig(level=logging.INFO)
 
 
@@ -39,4 +48,14 @@ def fanfare():
     return discord.FFmpegPCMAudio(source=Path('bonker/win.mp3'))
 
 
-token = os.getenv('TOKEN')
+def play_non_blocking(context, file, vc):
+    vc.play(file)
+    while vc.is_playing():
+        sleep(1)
+
+
+async def run_blocking(blocking_func: typing.Callable, *args, **kwargs) -> typing.Any:
+    func = functools.partial(blocking_func, *args, **kwargs)
+    return await bot.loop.run_in_executor(None, func)
+
+token = os.getenv('TOKENDEV', 'TOKEN')

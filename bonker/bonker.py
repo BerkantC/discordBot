@@ -1,7 +1,9 @@
 from data import helper
-from time import sleep
+from data import Banned
+from datetime import datetime, timedelta
 
 bot = helper.bot
+bannedMembers = {}
 
 
 @bot.event
@@ -9,28 +11,50 @@ async def on_ready():
     print('We have logged in as {0.user}'.format(bot))
 
 
-def get_bot_vc(ctx):
-    return helper.discord.utils.get(ctx.bot.voice_clients, guild=ctx.guild)
+async def should_allow_message_from_author(context):
+    if context.author.id in bannedMembers:
+        seconds = (bannedMembers[context.author.id].time-datetime.now()).seconds
+        await context.send("{0}, nel pa, te quedan {1} segundos de silencio".format(context.author.mention, seconds))
+        return False
+    else:
+        return True
 
 
-async def play_file(context, file):
+async def get_vc(context):
+    bot_vc = helper.discord.utils.get(context.bot.voice_clients, guild=context.guild)
+    if bot_vc is None:
+        return await context.author.voice.channel.connect()
+    else:
+        return bot_vc
+
+
+async def check_user_prerequisites(context):
+    if not await should_allow_message_from_author(context):
+        return False
+
     try:
         if context.author.voice is None:
             raise TypeError
     except TypeError:
         await context.send(context.author.name + " no está en ningun canal de voz... Bonk para ti", tts=True)
+        return False
+
+    return True
+
+
+async def play_file(context, file):
+    if not await check_user_prerequisites(context):
         return
 
-    bot_vc = get_bot_vc(context)
+    vc = await get_vc(context)
 
-    if bot_vc is None:
-        vc = await context.author.voice.channel.connect()
-    else:
-        vc = bot_vc
+    if vc.is_playing():
+        return
+
     vc.play(file)
     # Sleep while audio is playing.
     while vc.is_playing():
-        sleep(.1)
+        helper.sleep(1)
     await vc.disconnect()
     # Delete command after the audio is done playing.
     await context.message.delete()
@@ -44,8 +68,15 @@ async def bonk(context):
 
 @bot.command(brief="Te persiguen en DbD?")
 async def perseguidos(context):
+    if not await check_user_prerequisites(context):
+        return
+
     file = helper.chasing()
-    await play_file(context, file)
+    vc = await get_vc(context)
+
+    await helper.run_blocking(helper.play_non_blocking, context, file, vc)
+    await vc.disconnect()
+    await context.message.delete()
 
 
 @bot.command(brief="Alguien anda de ruidoso?")
@@ -83,4 +114,34 @@ async def metase(ctx, *, member: helper.discord.Member):
     await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)
 
 
+# @bot.command(brief="nuker!")
+# async def clear(ctx, number):
+#     if helper.ISDEV is True:
+#         number = int(number)
+#         await ctx.channel.purge(limit=number)
+#
+#
+# @bot.command()
+# async def timeout(ctx, member: helper.discord.Member, timeInterval: int):
+#     if timeInterval > 60:
+#         await ctx.send("No te pases de verga XD tampoco es ban para toda la vida...")
+#         return
+#
+#     unBanDateTime = datetime.now() + timedelta(seconds=timeInterval)
+#     bannedMember = Banned.Banned(ctx.channel, member, unBanDateTime)
+#     bannedMembers[member.id] = bannedMember
+#     await ctx.send("{0}, te pasaste de lanza... te vas a la banca por {1} segundos".format(member.mention, timeInterval))
+#
+#
+# @helper.tasks.loop(seconds=5)
+# async def unban():
+#     for key in list(bannedMembers):
+#         if bannedMembers[key].time <= datetime.now():
+#             member = bannedMembers[key]
+#             channel = member.channel
+#             await(channel.send("{0} ya puede enviar mensajes".format(member.name.mention)))
+#             del bannedMembers[key]
+#
+#
+# unban.start()
 bot.run(helper.token)
