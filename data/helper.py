@@ -48,6 +48,10 @@ def fanfare():
     return discord.FFmpegPCMAudio(source=Path('bonker/win.mp3'))
 
 
+def victory():
+    return discord.FFmpegPCMAudio(source=Path('bonker/victory.mp3'))
+
+
 def play_non_blocking(context, file, vc):
     vc.play(file)
     while vc.is_playing():

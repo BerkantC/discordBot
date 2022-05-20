@@ -109,39 +109,52 @@ async def w(context):
     await play_file(context, file)
 
 
+@bot.command()
+async def victory(context):
+    file = helper.victory()
+    await play_file(context, file)
+
+
 @bot.command(brief="Etiqueta a tus amigos para jugar")
 async def metase(ctx, *, member: helper.discord.Member):
     await ctx.send("Metase {0}... pero el finger, ja ja ja".format(member.mention), tts=True)
 
 
-# @bot.command(brief="nuker!")
-# async def clear(ctx, number):
-#     if helper.ISDEV is True:
-#         number = int(number)
-#         await ctx.channel.purge(limit=number)
-#
-#
-# @bot.command()
-# async def timeout(ctx, member: helper.discord.Member, timeInterval: int):
-#     if timeInterval > 60:
-#         await ctx.send("No te pases de verga XD tampoco es ban para toda la vida...")
-#         return
-#
-#     unBanDateTime = datetime.now() + timedelta(seconds=timeInterval)
-#     bannedMember = Banned.Banned(ctx.channel, member, unBanDateTime)
-#     bannedMembers[member.id] = bannedMember
-#     await ctx.send("{0}, te pasaste de lanza... te vas a la banca por {1} segundos".format(member.mention, timeInterval))
-#
-#
-# @helper.tasks.loop(seconds=5)
-# async def unban():
-#     for key in list(bannedMembers):
-#         if bannedMembers[key].time <= datetime.now():
-#             member = bannedMembers[key]
-#             channel = member.channel
-#             await(channel.send("{0} ya puede enviar mensajes".format(member.name.mention)))
-#             del bannedMembers[key]
-#
-#
-# unban.start()
+@bot.command(brief="nuker!")
+async def clear(ctx, number):
+    if helper.ISDEV is True:
+        number = int(number)
+        await ctx.channel.purge(limit=number)
+
+
+@bot.command(brief="Silencia a alguien por X segundos")
+async def timeout(ctx, member: helper.discord.Member, timeInterval: int):
+    if timeInterval > 60:
+        await ctx.send("No te pases de verga XD tampoco es ban para toda la vida...")
+        return
+
+    unBanDateTime = datetime.now() + timedelta(seconds=timeInterval)
+    bannedMember = Banned.Banned(ctx.channel, member, unBanDateTime)
+    bannedMembers[member.id] = bannedMember
+    message = "{0}, te vas a la banca por {1} segundos".format(member.mention, timeInterval)
+    await ctx.send(message)
+
+
+@bot.command(brief="quitar el silencio de alguien")
+async def unban(ctx, *, member: helper.discord.Member):
+    bannedMembers.pop(member.id)
+    await ctx.send("si {0} estaba baneado... pues ya no".format(member.mention))
+
+
+@helper.tasks.loop(seconds=5)
+async def unban():
+    for key in list(bannedMembers):
+        if bannedMembers[key].time <= datetime.now():
+            member = bannedMembers[key]
+            channel = member.channel
+            await(channel.send("{0} ya puede enviar mensajes".format(member.name.mention)))
+            del bannedMembers[key]
+
+
+unban.start()
 bot.run(helper.token)
