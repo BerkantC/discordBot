@@ -12,11 +12,11 @@ import typing
 
 load_dotenv()
 
-ISDEV = os.getenv('TOKENDEV') is not None
-if ISDEV:
-    bot = commands.Bot(command_prefix="!")
-else:
-    bot = commands.Bot(command_prefix='$')
+# ISDEV = os.getenv('TOKENDEV') is not None
+# if ISDEV:
+#     bot = commands.Bot(command_prefix="!")
+# else:
+bot = commands.Bot(command_prefix='$')
 logging.basicConfig(level=logging.INFO)
 
 
@@ -62,4 +62,5 @@ async def run_blocking(blocking_func: typing.Callable, *args, **kwargs) -> typin
     func = functools.partial(blocking_func, *args, **kwargs)
     return await bot.loop.run_in_executor(None, func)
 
-token = os.getenv('TOKENDEV', 'TOKEN')
+# token = os.getenv('TOKENDEV', 'TOKEN')
+token = os.getenv('TOKEN')
