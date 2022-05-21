@@ -66,17 +66,17 @@ async def bonk(context):
     await play_file(context, file)
 
 
-@bot.command(brief="Te persiguen en DbD?")
-async def perseguidos(context):
-    if not await check_user_prerequisites(context):
-        return
-
-    file = helper.chasing()
-    vc = await get_vc(context)
-
-    await helper.run_blocking(helper.play_non_blocking, context, file, vc)
-    await vc.disconnect()
-    await context.message.delete()
+# @bot.command(brief="Te persiguen en DbD?")
+# async def perseguidos(context):
+#     if not await check_user_prerequisites(context):
+#         return
+#
+#     file = helper.chasing()
+#     vc = await get_vc(context)
+#
+#     await helper.run_blocking(helper.play_non_blocking, context, file, vc)
+#     await vc.disconnect()
+#     await context.message.delete()
 
 
 @bot.command(brief="Alguien anda de ruidoso?")
