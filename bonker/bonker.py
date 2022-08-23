@@ -156,5 +156,11 @@ async def unban():
             del bannedMembers[key]
 
 
+@bot.command(brief="Quien?...")
+async def quien(context):
+    file = helper.trampa()
+    await play_file(context, file)
+
+
 unban.start()
 bot.run(helper.token)

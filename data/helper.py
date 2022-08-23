@@ -52,6 +52,10 @@ def victory():
     return discord.FFmpegPCMAudio(source=Path('bonker/victory.mp3'))
 
 
+def trampa():
+    return discord.FFmpegPCMAudio(source=Path('bonker/cartatrampa.mp3'))
+
+
 def play_non_blocking(context, file, vc):
     vc.play(file)
     while vc.is_playing():
