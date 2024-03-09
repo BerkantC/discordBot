@@ -10,7 +10,7 @@ python3 -m venv bot-env
 pip install -r requirements.txt
 export PYTHONPATH="${PYTHONPATH}:discordBot"
 sudo apt install ffmpeg
-curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
 sudo apt-get install -y nodejs
 sudo npm i -g pm2
 
