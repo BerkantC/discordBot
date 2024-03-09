@@ -12,11 +12,12 @@ import typing
 
 load_dotenv()
 
+intents = discord.Intents.all()
 # ISDEV = os.getenv('TOKENDEV') is not None
 # if ISDEV:
 #     bot = commands.Bot(command_prefix="!")
 # else:
-bot = commands.Bot(command_prefix='$')
+bot = commands.Bot(command_prefix='$', intents=intents)
 logging.basicConfig(level=logging.INFO)
 
 
