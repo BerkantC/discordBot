@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 import discord
+from discord import FFmpegPCMAudio
 from discord.ext import commands, tasks
 from dotenv import load_dotenv
 import logging
@@ -12,13 +13,14 @@ import typing
 
 load_dotenv()
 
-intents = discord.Intents.all()
+intents = discord.Intents.default()
+intents.message_content = True
 # ISDEV = os.getenv('TOKENDEV') is not None
 # if ISDEV:
 #     bot = commands.Bot(command_prefix="!")
 # else:
 bot = commands.Bot(command_prefix='$', intents=intents)
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 
 
 def bonk_file():

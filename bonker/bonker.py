@@ -1,3 +1,5 @@
+import asyncio
+
 from data import helper
 from data import Banned
 from datetime import datetime, timedelta
@@ -54,7 +56,7 @@ async def play_file(context, file):
     vc.play(file)
     # Sleep while audio is playing.
     while vc.is_playing():
-        helper.sleep(1)
+        await asyncio.sleep(1)
     await vc.disconnect()
     # Delete command after the audio is done playing.
     await context.message.delete()
@@ -66,17 +68,17 @@ async def bonk(context):
     await play_file(context, file)
 
 
-# @bot.command(brief="Te persiguen en DbD?")
-# async def perseguidos(context):
-#     if not await check_user_prerequisites(context):
-#         return
-#
-#     file = helper.chasing()
-#     vc = await get_vc(context)
-#
-#     await helper.run_blocking(helper.play_non_blocking, context, file, vc)
-#     await vc.disconnect()
-#     await context.message.delete()
+@bot.command(brief="Te persiguen en DbD?")
+async def perseguidos(context):
+    if not await check_user_prerequisites(context):
+        return
+
+    file = helper.chasing()
+    vc = await get_vc(context)
+
+    await helper.run_blocking(helper.play_non_blocking, context, file, vc)
+    await vc.disconnect()
+    await context.message.delete()
 
 
 @bot.command(brief="Alguien anda de ruidoso?")
@@ -162,5 +164,5 @@ async def quien(context):
     await play_file(context, file)
 
 
-unban.start()
+# unban.start()
 bot.run(helper.token)
