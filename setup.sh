@@ -4,10 +4,10 @@ sudo curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.
 sudo apt-get install git-lfs
 sudo apt-get install python3-pip
 python3 -m pip install -U discord.py
-pip install libnacl
-sudo apt install python3.8-venv
 python3 -m venv bot-env
-pip install -r requirements.txt
+python3 -m pip install libnacl
+sudo apt install python3.11-venv
+python3 -m pip install -r requirements.txt
 export PYTHONPATH="${PYTHONPATH}:discordBot"
 sudo apt install ffmpeg
 curl -sL https://deb.nodesource.com/setup_18.x | sudo -E bash -
